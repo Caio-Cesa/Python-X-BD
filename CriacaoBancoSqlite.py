@@ -1,4 +1,6 @@
 import sqlite3
+import sys
+sys.path.append('C:/Users/Usuario/AppData/Roaming/Python/Python313/site-packages')
 import bcrypt
 
 # Criando um banco de dados (se ainda não existir) e conecta ao banco
