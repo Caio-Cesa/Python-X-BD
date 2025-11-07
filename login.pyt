@@ -1,7 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
-import mysql.connector
+import sys
+sys.path.append('C:/Users/Usuario/AppData/Roaming/Python/Python313/site-packages')
 import bcrypt
 
 def verificar_login ():

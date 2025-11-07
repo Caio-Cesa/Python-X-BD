@@ -5,7 +5,7 @@ conexao =sqlite3.connect("comercio.db")
 cursor = conexao.cursor()
 
 cursor.execute("""
-CREATE TABLE clientes(
+CREATE TABLE usuarios(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nome TEXT NOT NULL,
         cpf TEXT NOT NULL UNIQUE

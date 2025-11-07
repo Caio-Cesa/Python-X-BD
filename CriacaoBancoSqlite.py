@@ -30,11 +30,17 @@ tipo = "professor"
 # Criptografar a senha
 senha_hash = bcrypt.hashpw(senha.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
-# Inserir no banco
-cursor.execute("""
-INSERT INTO usuarios (cpf, nome, email, senha, tipo)
-VALUES (?, ?, ?, ?, ?)
-""", (cpf, nome, email, senha_hash, tipo))
+# Verificar se o usuário já existe antes de inserir
+cursor.execute("SELECT id FROM usuarios WHERE cpf = ? OR email = ?", (cpf, email))
+if cursor.fetchone() is None:
+    # Inserir no banco se não existir
+    cursor.execute("""
+    INSERT INTO usuarios (cpf, nome, email, senha, tipo)
+    VALUES (?, ?, ?, ?, ?)
+    """, (cpf, nome, email, senha_hash, tipo))
+    print("Usuário professor padrão inserido com sucesso.")
+else:
+    print("Usuário professor padrão já existe no banco de dados.")
 
 conexao.commit()
 conexao.close()
