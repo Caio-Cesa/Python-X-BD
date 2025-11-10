@@ -9,26 +9,6 @@ def conectar():
     # Altera a conexão para um banco de dados sqlite3
     return sqlite3.connect('gerenciamento_notas.db')
 
-def criar_tabela():
-    # Cria a tabela de usuários se ela não existir
-    try:
-        conexao = conectar()
-        cursor = conexao.cursor()
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS usuarios (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                nome TEXT NOT NULL,
-                cpf TEXT NOT NULL UNIQUE,
-                email TEXT NOT NULL UNIQUE,
-                senha TEXT NOT NULL,
-                tipo TEXT NOT NULL
-            )
-        ''')
-        conexao.commit()
-        conexao.close()
-    except sqlite3.Error as erro:
-        messagebox.showerror("Erro ao criar tabela!", erro)
-
 def limpar_campos():
     entrada_nome.delete(0,tk.END)
     
@@ -59,7 +39,5 @@ janela = tk.Tk()
 botao_cadastrar = tk.Button(janela,text="Cadastrar", command=cadastrar_usuario)
 botao_cadastrar.pack(pady=20)
 
-# Cria a tabela antes de iniciar a aplicação
-#criar_tabela()
-
 janela.mainloop()
+
