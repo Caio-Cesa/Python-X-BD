@@ -8,10 +8,18 @@ cursor = conexao.cursor()
 
 try:
     # Criptografar as senhas antes de inserir
+    senha0_hash = bcrypt.hashpw('000'.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     senha1_hash = bcrypt.hashpw('111'.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     senha2_hash = bcrypt.hashpw('222'.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     senha3_hash = bcrypt.hashpw('333'.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
+    cursor.execute("""
+    INSERT INTO usuarios (id, cpf, nome, email, senha, tipo)
+    VALUES (?, ?, ?, ?, ?, ?);
+    """, (0, '0000', 'Administrador',
+          'administrador@secretaria.newtonpaiva.br',
+          senha0_hash,
+          'secretaria'))
     cursor.execute("""
     INSERT INTO usuarios (id, cpf, nome, email, senha, tipo)
     VALUES (?, ?, ?, ?, ?, ?);

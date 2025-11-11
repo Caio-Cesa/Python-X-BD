@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS professores (
 #tabela disciplinas
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS disciplinas (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome VARCHAR(100) NOT NULL,
     professor_id INT NOT NULL,
     FOREIGN KEY (professor_id) REFERENCES professores(id) ON DELETE RESTRICT
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS disciplinas (
 #tabela matriculas
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS matriculas (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     aluno_id INT NOT NULL,
     disciplina_id INT NOT NULL,
     UNIQUE (aluno_id, disciplina_id),
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS matriculas (
 #Tabela de notas
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS notas (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     disciplina_id INT NOT NULL,
     aluno_id INT NOT NULL,
     professor_id INT NOT NULL,
@@ -80,20 +80,5 @@ CREATE TABLE IF NOT EXISTS notas (
 """)
 print("Tabelas criadas com sucesso!")
 
-# Criptografar a senha
-#senha_hash = bcrypt.hashpw(senha.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-'''
-# Verificar se o usuário já existe antes de inserir
-cursor.execute("SELECT id FROM usuarios WHERE cpf = ? OR email = ?", (cpf, email))
-if cursor.fetchone() is None:
-    # Inserir no banco se não existir
-    cursor.execute("""
-    INSERT INTO usuarios (cpf, nome, email, senha, tipo)
-    VALUES (?, ?, ?, ?, ?)
-    """, (cpf, nome, email, senha_hash, tipo))
-    print("Usuário professor padrão inserido com sucesso.")
-else:
-    print("Usuário professor padrão já existe no banco de dados.")
-'''
 conexao.commit()
 conexao.close()

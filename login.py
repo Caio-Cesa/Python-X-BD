@@ -1,9 +1,9 @@
 import tkinter as tk
-from tkinter import messagebox
-from tkinter import ttk
+from tkinter import ttk, messagebox
 import sqlite3
 import sys
 import os
+
 #caminho para rodar no PC do Caio outros usuarios favor comentar a linha abaixo
 sys.path.append('C:/Users/Usuario/AppData/Roaming/Python/Python313/site-packages')
 import bcrypt
@@ -15,15 +15,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CADASTRO_SCRIPT_PATH = os.path.join(BASE_DIR, 'cadastro.py')
 TELA_PROFESSOR_SCRIPT_PATH = os.path.join(BASE_DIR, 'tela_professor.py')
 TELA_ALUNO_SCRIPT_PATH = os.path.join(BASE_DIR, 'tela_aluno.py')
-
-# Função para abrir a tela de cadastro
-def abrir_tela_cadastro():
-    # Esconde a janela de login
-    janela.withdraw()
-    # Executa o script de cadastro usando o caminho relativo
-    os.system(f'python "{CADASTRO_SCRIPT_PATH}"')
-    # Reexibe a janela de login quando a de cadastro for fechada
-    janela.deiconify()
+TELA_SECRETARIA_SCRIPT_PATH = os.path.join(BASE_DIR, 'tela_secretaria.py')
 
 def verificar_login ():
     id = entrada_usuario.get()
@@ -56,6 +48,8 @@ def verificar_login ():
                         abrir_tela_professor(id)
                     elif tipo_usuario == 'aluno':
                         abrir_tela_aluno(id)
+                    elif tipo_usuario == 'secretaria':
+                        abrir_tela_secretaria(id)
                 else:
                     messagebox.showerror("Erro de Login", "Matrícula ou senha incorreta.")
             else:
@@ -79,6 +73,12 @@ def abrir_tela_aluno(aluno_id):
     import subprocess
     subprocess.Popen([sys.executable, TELA_ALUNO_SCRIPT_PATH, str(aluno_id)])
 
+def abrir_tela_secretaria(secretaria_id):
+    # Esta função será responsável por chamar a tela da secretaria
+    # Passamos o ID para que a nova tela saiba quem está logado
+    import subprocess
+    subprocess.Popen([sys.executable, TELA_SECRETARIA_SCRIPT_PATH, str(secretaria_id)])
+
 # --- Interface Gráfica ---
 
 
@@ -101,9 +101,6 @@ entrada_senha = ttk.Entry(frame, width=30, show="*")
 entrada_senha.pack(pady=5)
 
 tk.Button(frame,text="Entrar",command=verificar_login).pack(pady=15)
-
-# Botão para abrir a tela de cadastro
-tk.Button(frame, text="Cadastrar Novo Usuário", command=abrir_tela_cadastro).pack()
 
 entrada_usuario.focus()
 
