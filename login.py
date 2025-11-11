@@ -3,8 +3,27 @@ from tkinter import messagebox
 from tkinter import ttk
 import sqlite3
 import sys
+import os
+#caminho para rodar no PC do Caio outros usuarios favor comentar a linha abaixo
 sys.path.append('C:/Users/Usuario/AppData/Roaming/Python/Python313/site-packages')
 import bcrypt
+
+# --- Configuração de Caminhos Relativos ---
+# Pega o diretório do script atual (login.py)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# Cria os caminhos completos para os outros scripts
+CADASTRO_SCRIPT_PATH = os.path.join(BASE_DIR, 'cadastro.py')
+TELA_PROFESSOR_SCRIPT_PATH = os.path.join(BASE_DIR, 'tela_professor.py')
+TELA_ALUNO_SCRIPT_PATH = os.path.join(BASE_DIR, 'tela_aluno.py')
+
+# Função para abrir a tela de cadastro
+def abrir_tela_cadastro():
+    # Esconde a janela de login
+    janela.withdraw()
+    # Executa o script de cadastro usando o caminho relativo
+    os.system(f'python "{CADASTRO_SCRIPT_PATH}"')
+    # Reexibe a janela de login quando a de cadastro for fechada
+    janela.deiconify()
 
 def verificar_login ():
     id = entrada_usuario.get()
@@ -32,8 +51,11 @@ def verificar_login ():
                 
                 # Verificar se a senha fornecida corresponde à senha armazenada (hash)
                 if bcrypt.checkpw(senha.encode('utf-8'), senha_hash.encode('utf-8')):
-                    messagebox.showinfo("Login bem-sucedido", f"Bem-vindo! Login como {tipo_usuario} realizado com sucesso.")
-                    # Aqui você pode adicionar a lógica para abrir a próxima janela da aplicação
+                    janela.destroy() # Fecha a janela de login
+                    if tipo_usuario == 'professor':
+                        abrir_tela_professor(id)
+                    elif tipo_usuario == 'aluno':
+                        abrir_tela_aluno(id)
                 else:
                     messagebox.showerror("Erro de Login", "Matrícula ou senha incorreta.")
             else:
@@ -44,6 +66,20 @@ def verificar_login ():
         finally:
             if 'conexao' in locals() and conexao:
                 conexao.close()
+
+def abrir_tela_professor(professor_id):
+    # Esta função será responsável por chamar a tela do professor
+    # Passamos o ID do professor para que a nova tela saiba quem está logado
+    import subprocess
+    subprocess.Popen([sys.executable, TELA_PROFESSOR_SCRIPT_PATH, str(professor_id)])
+
+def abrir_tela_aluno(aluno_id):
+    # Esta função será responsável por chamar a tela do aluno
+    # Passamos o ID do aluno para que a nova tela saiba quem está logado
+    import subprocess
+    subprocess.Popen([sys.executable, TELA_ALUNO_SCRIPT_PATH, str(aluno_id)])
+
+# --- Interface Gráfica ---
 
 
 janela = tk.Tk()
@@ -65,6 +101,10 @@ entrada_senha = ttk.Entry(frame, width=30, show="*")
 entrada_senha.pack(pady=5)
 
 tk.Button(frame,text="Entrar",command=verificar_login).pack(pady=15)
+
+# Botão para abrir a tela de cadastro
+tk.Button(frame, text="Cadastrar Novo Usuário", command=abrir_tela_cadastro).pack()
+
 entrada_usuario.focus()
 
 janela.mainloop()
