@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-import sqlite3
 import sys
 import os
+from database_manager import gerenciar_conexao_bd
 
 #caminho para rodar no PC do Caio outros usuarios favor comentar a linha abaixo
 sys.path.append('C:/Users/Usuario/AppData/Roaming/Python/Python313/site-packages')
@@ -28,38 +28,32 @@ def verificar_login ():
     elif not senha:
         messagebox.showwarning("Erro Login: ","Senha inválida!")
     else:
-        try:
-            # Conectar ao banco de dados
-            conexao = sqlite3.connect("gerenciamento_notas.db")
-            cursor = conexao.cursor()
-
+        with gerenciar_conexao_bd() as cursor:
+            if not cursor:
+                # A mensagem de erro já foi exibida pelo gerenciador de conexão
+                return
+            
             # Buscar usuário pelo ID (matrícula)
             cursor.execute("SELECT senha, tipo FROM usuarios WHERE id = ?", (id,))
             usuario = cursor.fetchone()
 
-            if usuario:
-                senha_hash = usuario[0]
-                tipo_usuario = usuario[1]
-                
-                # Verificar se a senha fornecida corresponde à senha armazenada (hash)
-                if bcrypt.checkpw(senha.encode('utf-8'), senha_hash.encode('utf-8')):
-                    janela.destroy() # Fecha a janela de login
-                    if tipo_usuario == 'professor':
-                        abrir_tela_professor(id)
-                    elif tipo_usuario == 'aluno':
-                        abrir_tela_aluno(id)
-                    elif tipo_usuario == 'secretaria':
-                        abrir_tela_secretaria(id)
-                else:
-                    messagebox.showerror("Erro de Login", "Matrícula ou senha incorreta.")
+        if usuario:
+            senha_hash = usuario[0]
+            tipo_usuario = usuario[1]
+            
+            # Verificar se a senha fornecida corresponde à senha armazenada (hash)
+            if bcrypt.checkpw(senha.encode('utf-8'), senha_hash.encode('utf-8')):
+                janela.destroy() # Fecha a janela de login
+                if tipo_usuario == 'professor':
+                    abrir_tela_professor(id)
+                elif tipo_usuario == 'aluno':
+                    abrir_tela_aluno(id)
+                elif tipo_usuario == 'secretaria':
+                    abrir_tela_secretaria(id)
             else:
                 messagebox.showerror("Erro de Login", "Matrícula ou senha incorreta.")
-
-        except sqlite3.Error as e:
-            messagebox.showerror("Erro de Banco de Dados", f"Ocorreu um erro: {e}")
-        finally:
-            if 'conexao' in locals() and conexao:
-                conexao.close()
+        else:
+            messagebox.showerror("Erro de Login", "Matrícula ou senha incorreta.")
 
 def abrir_tela_professor(professor_id):
     # Esta função será responsável por chamar a tela do professor
