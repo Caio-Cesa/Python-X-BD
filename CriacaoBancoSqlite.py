@@ -78,6 +78,7 @@ CREATE TABLE IF NOT EXISTS notas (
     FOREIGN KEY (disciplina_id) REFERENCES disciplinas(id) ON DELETE CASCADE
 );
 """)
+print("Tabelas criadas com sucesso!")
 
 # Criptografar a senha
 #senha_hash = bcrypt.hashpw(senha.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
