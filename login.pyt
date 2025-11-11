@@ -19,7 +19,7 @@ def verificar_login ():
 
 janela = tk.Tk()
 janela.title("Sistema de Gerenciamento de Notas")
-janela.geometry("365x300")
+janela.geometry("365x260")
 janela.configure(bg="#eef2f7")
 janela.resizable(False, False)
 
@@ -37,4 +37,5 @@ entrada_senha.pack(pady=5)
 
 tk.Button(janela,text="Entrar",command=verificar_login).pack(pady=15)
 
+entrada_usuario.focus()
 janela.mainloop()
