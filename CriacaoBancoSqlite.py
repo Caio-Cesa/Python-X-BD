@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     tipo TEXT NOT NULL CHECK (tipo IN ('secretaria', 'professor', 'aluno'))
 );
 """)
+
 #A tabela alunos vai se relacionar com usuários
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS alunos (
