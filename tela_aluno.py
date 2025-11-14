@@ -49,24 +49,27 @@ ttk.Label(frame_info, text=f"Bem-vindo(a), {aluno_info.get('nome', 'Aluno')}!", 
 ttk.Label(frame_info, text=f"Curso: {aluno_info.get('curso', 'Não definido')}", font=("Segoe UI", 10)).pack(anchor='w', pady=(0, 10))
 
 # Criar a tabela (Treeview) para exibir as notas
-colunas = ('disciplina', 'professor', 'nota_trabalho', 'nota_prova', 'media_final')
+colunas = ('disciplina', 'professor', 'nota_trabalho', 'nota_prova', 'nota_final', 'status')
 tabela_notas = ttk.Treeview(janela, columns=colunas, show='headings')
 
 tabela_notas.heading('disciplina', text='Disciplina')
 tabela_notas.heading('professor', text='Professor(a)')
 tabela_notas.heading('nota_trabalho', text='Nota Trabalho')
 tabela_notas.heading('nota_prova', text='Nota Prova')
-tabela_notas.heading('media_final', text='Média Final')
+tabela_notas.heading('nota_final', text='Nota Final')
+tabela_notas.heading('status', text='Status')
 
-tabela_notas.column('disciplina', width=250)
-tabela_notas.column('professor', width=200)
+tabela_notas.column('disciplina', width=220)
+tabela_notas.column('professor', width=180)
 tabela_notas.column('nota_trabalho', width=100, anchor='center')
 tabela_notas.column('nota_prova', width=100, anchor='center')
-tabela_notas.column('media_final', width=100, anchor='center')
+tabela_notas.column('nota_final', width=80, anchor='center')
+tabela_notas.column('status', width=80, anchor='center')
 
 for disciplina, professor, nota_trabalho, nota_prova in notas_aluno:
-    media = (nota_trabalho + nota_prova)
-    tabela_notas.insert('', tk.END, values=(disciplina, professor, nota_trabalho, nota_prova, f"{media:.2f}"))
+    nota_final = nota_trabalho + nota_prova
+    status = "Aprovado" if nota_final >= 6.0 else "Reprovado"
+    tabela_notas.insert('', tk.END, values=(disciplina, professor, nota_trabalho, nota_prova, f"{nota_final:.2f}", status))
 
 tabela_notas.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
 

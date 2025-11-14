@@ -103,6 +103,11 @@ def salvar_edicao():
     except ValueError:
         messagebox.showerror("Valor Inválido", "Por favor, insira valores numéricos para as notas.")
         return
+    
+    # Validação do intervalo das notas
+    if not (0 <= nova_nota_trabalho <= 5 and 0 <= nova_nota_prova <= 5):
+        messagebox.showerror("Nota Inválida", "As notas devem estar entre 0 e 5.")
+        return
 
     valores = tabela_alunos.item(item_selecionado, 'values')
     aluno_id = valores[0]
@@ -132,7 +137,8 @@ def exportar_para_csv():
 
     try:
         with open(filepath, 'w', newline='', encoding='utf-8') as file:
-            writer = csv.writer(file)
+            # Altere o delimitador aqui. Ex: delimiter=';' para ponto e vírgula
+            writer = csv.writer(file, delimiter=';')
             # Escreve o cabeçalho
             writer.writerow(['ID Aluno', 'Nome', 'Nota Trabalho', 'Nota Prova', 'Média Final'])
             # Escreve os dados da tabela
@@ -174,7 +180,7 @@ tabela_alunos.heading('id', text='ID')
 tabela_alunos.heading('nome', text='Nome do Aluno')
 tabela_alunos.heading('nota_trabalho', text='Nota Trabalho')
 tabela_alunos.heading('nota_prova', text='Nota Prova')
-tabela_alunos.heading('media', text='Média Final')
+tabela_alunos.heading('media', text='Nota Final')
 tabela_alunos.column('id', width=50, anchor=tk.CENTER)
 tabela_alunos.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 tabela_alunos.bind("<<TreeviewSelect>>", ao_selecionar_aluno)
