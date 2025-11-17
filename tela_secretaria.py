@@ -2,7 +2,9 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import sqlite3
 import sys
+from PIL import Image, ImageTk
 import os
+
 from database_manager import gerenciar_conexao_bd
 #caminho para rodar no PC do Caio outros usuarios favor comentar a linha abaixo
 sys.path.append('C:/Users/Usuario/AppData/Roaming/Python/Python313/site-packages')
@@ -24,7 +26,6 @@ def buscar_todos_usuarios():
         cursor.execute("SELECT id, nome, cpf, email, tipo FROM usuarios ORDER BY nome")
         return cursor.fetchall()
     return []
-
 
 # --- Funções da Interface ---
 
@@ -224,6 +225,32 @@ def abrir_popup_criar_disciplina(janela_pai, callback_refresh): # Usada por abri
     popup.transient(janela_pai) # Mantém o popup sobre a janela pai
     popup.grab_set() # Bloqueia interações com a janela pai
 
+    # 🔹 Ícone + cabeçalho Hogwarts
+    try:
+        if os.path.exists(icone_path):
+            icon_img = ImageTk.PhotoImage(Image.open(icone_path).resize((24, 24)))
+            popup.iconphoto(False, icon_img)
+            popup._icon_ref = icon_img  # evita garbage collector
+
+        header = tk.Frame(popup, bg="#5e0f16", padx=15, pady=8)
+        header.pack(fill=tk.X)
+
+        if os.path.exists(icone_path):
+            header_img = ImageTk.PhotoImage(Image.open(icone_path).resize((32, 32)))
+            lbl_header_img = tk.Label(header, image=header_img, bg="#5e0f16")
+            lbl_header_img.image = header_img
+            lbl_header_img.pack(side="right")
+
+        tk.Label(
+            header,
+            text="Criar Nova Disciplina",
+            font=("Segoe UI", 11, "bold"),
+            bg="#5e0f16",
+            fg="white"
+        ).pack(anchor="w")
+    except Exception as e:
+        print("Erro cabeçalho popup disciplina:",e)
+
     frame_disciplinas = ttk.Labelframe(popup, text="Dados da Nova Disciplina", padding=10)
     frame_disciplinas.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
@@ -254,6 +281,30 @@ def abrir_tela_realizar_matricula(): # Chamada pelo botão "Realizar Matrícula"
     janela_matricula = tk.Toplevel(janela)
     janela_matricula.title("Realizar Matrícula")
     janela_matricula.geometry("550x250")
+
+    # 🔹 Cabeçalho Hogwarts
+    try:
+        img_icon_mat = ImageTk.PhotoImage(Image.open(icone_path).resize((32, 32)))
+        janela_matricula.iconphoto(False, img_icon_mat)
+        janela_matricula._icon_ref = img_icon_mat
+
+        frame_header_m = tk.Frame(janela_matricula, bg="#5e0f16", padx=15, pady=8)
+        frame_header_m.pack(fill=tk.X)
+
+        img_header_m = ImageTk.PhotoImage(Image.open(icone_path).resize((40, 40)))
+        lbl_header_img_m = tk.Label(frame_header_m, image=img_header_m, bg="#5e0f16")
+        lbl_header_img_m.image = img_header_m
+        lbl_header_img_m.pack(side="right")
+
+        tk.Label(
+            frame_header_m,
+            text="Realizar Matrícula",
+            font=("Segoe UI", 12, "bold"),
+            bg="#5e0f16",
+            fg="white"
+        ).pack(anchor="w")
+    except Exception as e:
+        print("Erro cabeçalho matrícula:", e)
 
     frame_matricula = ttk.Labelframe(janela_matricula, text="Matricular Aluno em Disciplina", padding=10)
     frame_matricula.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
@@ -303,6 +354,32 @@ def abrir_tela_cadastro(janela_pai, callback_refresh=None):
     janela_cadastro.transient(janela_pai)
     janela_cadastro.grab_set()
 
+    # 🔹 Ícone + cabeçalho Hogwarts
+    try:
+        if os.path.exists(icone_path):
+            icon_img = ImageTk.PhotoImage(Image.open(icone_path).resize((24, 24)))
+            janela_cadastro.iconphoto(False, icon_img)
+            janela_cadastro._icon_ref = icon_img  # evita GC
+
+        header = tk.Frame(janela_cadastro, bg="#5e0f16", padx=15, pady=8)
+        header.pack(fill=tk.X)
+
+        if os.path.exists(icone_path):
+            header_img = ImageTk.PhotoImage(Image.open(icone_path).resize((32, 32)))
+            lbl_header_img = tk.Label(header, image=header_img, bg="#5e0f16")
+            lbl_header_img.image = header_img
+            lbl_header_img.pack(side="right")
+
+        tk.Label(
+            header,
+            text="Cadastro de Novo Usuário",
+            font=("Segoe UI", 11, "bold"),
+            bg="#5e0f16",
+            fg="white"
+        ).pack(anchor="w")
+    except Exception as e:
+        print("Erro cabeçalho cadastro:", e)
+
     frame_cadastro = ttk.Frame(janela_cadastro, padding=10)
     frame_cadastro.pack(fill=tk.BOTH, expand=True)
 
@@ -344,6 +421,37 @@ def abrir_tela_gerenciar_usuarios():
     janela_usuarios = tk.Toplevel(janela)
     janela_usuarios.title("Gerenciar Usuários")
     janela_usuarios.geometry("800x600")
+
+# --- Cabeçalho Hogwarts ---
+    try:
+        if os.path.exists(icone_path):
+            img_icon_u = ImageTk.PhotoImage(Image.open(icone_path).resize((32, 32)))
+            janela_usuarios.iconphoto(False, img_icon_u)
+            janela_usuarios._icon_ref = img_icon_u  # evita garbage collector
+    except Exception as e:
+        print("Erro ao carregar ícone em Gerenciar Usuários:", e)
+
+    header = tk.Frame(janela_usuarios, bg="#4B0F0F", height=70)
+    header.pack(fill="x")
+
+    label_titulo = tk.Label(
+        header,
+        text="Gerenciar Usuários",
+        bg="#4B0F0F",
+        fg="white",
+        font=("Segoe UI", 18, "bold")
+    )
+    label_titulo.pack(side="left", padx=20)
+
+# Carregar brasão
+    logo_path = os.path.join(BASE_DIR, "Hogwarts.png")
+    if os.path.exists(logo_path):
+        img = Image.open(logo_path)
+        img = img.resize((60, 60))
+        logo = ImageTk.PhotoImage(img)
+        logo_label = tk.Label(header, image=logo, bg="#4B0F0F")
+        logo_label.image = logo
+        logo_label.pack(side="right", padx=20)
 
     # Frame de Edição
     frame_edicao = ttk.Labelframe(janela_usuarios, text="Editar Usuário Selecionado", padding=10)
@@ -455,6 +563,29 @@ def abrir_tela_gerenciar_matriculas():
     janela_ger_matricula.title("Gerenciar Matrículas")
     janela_ger_matricula.geometry("700x500")
 
+    try:
+        img_icon_m = ImageTk.PhotoImage(Image.open(icone_path).resize((32, 32)))
+        janela_ger_matricula.iconphoto(False, img_icon_m)
+        janela_ger_matricula._icon_ref = img_icon_m
+
+        frame_header_m = tk.Frame(janela_ger_matricula, bg="#5e0f16", padx=15, pady=8)
+        frame_header_m.pack(fill=tk.X)
+
+        img_header_m = ImageTk.PhotoImage(Image.open(icone_path).resize((40, 40)))
+        lbl_header_img_m = tk.Label(frame_header_m, image=img_header_m, bg="#5e0f16")
+        lbl_header_img_m.image = img_header_m
+        lbl_header_img_m.pack(side="right")
+
+        tk.Label(
+            frame_header_m,
+            text="Gerenciar Matrículas",
+            font=("Segoe UI", 12, "bold"),
+            bg="#5e0f16",
+            fg="white"
+        ).pack(anchor="w")
+    except Exception as e:
+        print("Erro cabeçalho matrículas:", e)
+
     # Frame Superior: Seleção
     frame_selecao = ttk.Frame(janela_ger_matricula, padding=10)
     frame_selecao.pack(fill=tk.X)
@@ -524,6 +655,36 @@ janela = tk.Tk()
 janela.title("Painel Administrativo - Secretaria")
 janela.geometry("400x300")
 
+# --- CABEÇALHO HOGWARTS ---
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+icone_path = os.path.join(BASE_DIR, "Hogwarts.png")  
+
+try:
+    # (substitui a "pena")
+    img_icon = ImageTk.PhotoImage(Image.open(icone_path).resize((32, 32)))
+    janela.iconphoto(False, img_icon)
+    janela._icon_ref = img_icon  
+
+    # Faixa vinho com brasão
+    frame_header = tk.Frame(janela, bg="#5e0f16", padx=15, pady=10)
+    frame_header.pack(fill=tk.X)
+
+    img_header = ImageTk.PhotoImage(Image.open(icone_path).resize((50, 50)))
+    lbl_header_img = tk.Label(frame_header, image=img_header, bg="#5e0f16")
+    lbl_header_img.image = img_header
+    lbl_header_img.pack(side="right")
+
+    tk.Label(
+        frame_header,
+        text="Painel Administrativo - Secretaria",
+        font=("Segoe UI", 12, "bold"),
+        bg="#5e0f16",
+        fg="white"
+    ).pack(anchor="w")
+
+except Exception as e:
+    print("Erro ao carregar brasão na tela da secretaria:", e)
+
 nome_usuario = buscar_nome_usuario_por_id(secretaria_id_logado) if secretaria_id_logado else "Usuário"
 
 ttk.Label(janela, text=f"Bem-vindo(a), {nome_usuario}!", font=("Segoe UI", 16)).pack(pady=20)
@@ -536,3 +697,4 @@ ttk.Button(frame_botoes, text="Gerenciar Matrículas", command=abrir_tela_gerenc
 ttk.Button(frame_botoes, text="Realizar Matrícula", command=abrir_tela_realizar_matricula, width=40).pack(pady=5, ipady=5)
 
 janela.mainloop()
+
