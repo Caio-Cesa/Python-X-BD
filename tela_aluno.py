@@ -63,9 +63,9 @@ aluno_info, notas_aluno = buscar_dados_aluno(aluno_id_logado)
 frame_info = tk.Frame(janela, bg="#5e0f16", padx=20, pady=10)
 frame_info.pack(fill=tk.X)
 
-# ---- IMAGEM DO BRASÃO (Hogwarts.png na mesma pasta do arquivo) ----
+# ---- IMAGEM DO BRASÃO (Hogwarts.jpg na mesma pasta do arquivo) ----
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-img_path = os.path.join(BASE_DIR, "Hogwarts.png")
+img_path = os.path.join(BASE_DIR, "Hogwarts.jpg")
 
 try:
     img_original = Image.open(img_path)

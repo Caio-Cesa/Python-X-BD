@@ -444,7 +444,7 @@ def abrir_tela_gerenciar_usuarios():
     label_titulo.pack(side="left", padx=20)
 
 # Carregar brasão
-    logo_path = os.path.join(BASE_DIR, "Hogwarts.png")
+    logo_path = os.path.join(BASE_DIR, "Hogwarts.jpg")
     if os.path.exists(logo_path):
         img = Image.open(logo_path)
         img = img.resize((60, 60))
@@ -657,7 +657,7 @@ janela.geometry("400x300")
 
 # --- CABEÇALHO HOGWARTS ---
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-icone_path = os.path.join(BASE_DIR, "Hogwarts.png")  
+icone_path = os.path.join(BASE_DIR, "Hogwarts.jpg")  
 
 try:
     # (substitui a "pena")

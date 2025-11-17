@@ -72,7 +72,7 @@ janela.resizable(False, False)
 
 #  ÍCONE + CABEÇALHO COM FAIXA VINHO + BRASÃO 
 
-icone_path = os.path.join(BASE_DIR, "Hogwarts.png")
+icone_path = os.path.join(BASE_DIR, "Hogwarts.jpg")
 
 if os.path.exists(icone_path):
     try:
@@ -107,7 +107,7 @@ tk.Label(
 frame = ttk.Frame(janela, padding=20)
 frame.place(relx=0.5, rely=0.60, anchor="center")
 
-logo_path = os.path.join(BASE_DIR, "Hogwarts.png")
+logo_path = os.path.join(BASE_DIR, "Hogwarts.jpg")
 
 if os.path.exists(logo_path):
     img = Image.open(logo_path)
