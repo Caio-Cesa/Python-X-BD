@@ -1,7 +1,7 @@
 # Sistema de Gerenciamento Acadêmico - Python-X-BD
 
 <!-- Sugestão: Tire um print da tela de login e adicione aqui -->
-![alt text]({8FD3D949-28FF-4375-9DDB-313693E423C8}.png)
+<p align="center"><img src="{8FD3D949-28FF-4375-9DDB-313693E423C8}.png" alt="Tela de Login"></p>
 
 Um sistema de desktop para gerenciamento de notas e informações acadêmicas, desenvolvido em Python com uma interface gráfica construída em Tkinter. O projeto simula um ambiente acadêmico com diferentes perfis de usuário (Aluno, Professor e Secretaria), cada um com seu próprio painel e funcionalidades específicas.
 
