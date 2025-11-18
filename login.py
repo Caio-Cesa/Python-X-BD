@@ -135,4 +135,3 @@ tk.Button(frame,text="Entrar",command=verificar_login).pack(pady=15)
 entrada_usuario.focus()
 
 janela.mainloop()
-
